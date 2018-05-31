@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<a th:href="@{/login}">login</a>
+
+<a sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
+<a sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
+<div sec:authorize="isAuthenticated()">
+    Hello <span sec:authentication="name">anonymous</span>!<br/>
+    Your roles: <span sec:authentication="principal.authorities">NULL</span>
+</div>
+
 </body>
 </html>

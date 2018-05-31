@@ -2,21 +2,29 @@ package pl.ezgolda.springproject.data.objects;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "users")
 public class User implements UserDetails {
 
     @NotEmpty
-    private Collection<@NotNull GrantedAuthority> authorities;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private Collection<@NotNull Role> roles;
     @Id
     @GeneratedValue
     private Integer id;
@@ -24,7 +32,6 @@ public class User implements UserDetails {
     @Length(min = 4, max = 16)
     private String username;
     @NotNull
-    @Length(min = 4, max = 16)
     private String password;
     @NotNull
     @Email
@@ -36,14 +43,15 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.roles = new HashSet<>();
     }
 
     public User() {
         //empty - constructor for JPA to inject
     }
 
-    public boolean addAuthority(@NotNull GrantedAuthority authority) {
-        return authorities.add(authority);
+    public boolean addRole(@NotNull Role role) {
+        return roles.add(role);
     }
 
     public String getUsername() {
@@ -76,7 +84,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return roles.stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
+                .collect(Collectors.toSet());
     }
 
     public String getPassword() {
@@ -95,7 +105,7 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
