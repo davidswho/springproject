@@ -34,13 +34,16 @@ public class InitializationService implements ApplicationListener<ContextRefresh
         if (alreadySetup)
             return;
 
-        createRole("ADMIN");
+        Role adminRole = createRole("ADMIN");
         Role userRole = createRole("USER");
 
         User user = new User("test", passwordEncoder.encode("test"), "test@test.pl");
-
+        User admin = new User("admin", passwordEncoder.encode("admin"), "admin@admin.pl");
         user.addRole(userRole);
+        admin.addRole(adminRole);
         userRepository.save(user);
+        userRepository.save(admin);
+
 
         alreadySetup = true;
 

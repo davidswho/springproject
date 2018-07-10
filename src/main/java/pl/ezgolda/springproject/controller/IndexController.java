@@ -15,6 +15,11 @@ public class IndexController {
         return "index";
     }
 
+    @RequestMapping("/register")
+    public String register() {
+        return "register";
+    }
+
     @GetMapping("/login")
     public String login(Principal principal) {
         return principal == null ? "login" : "redirect:/";
