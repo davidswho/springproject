@@ -1,104 +1,51 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
->
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Starter Template for Bootstrap</title>
-
-    <!-- Bootstrap core CSS -->
-    <script type="text/javascript" th:src="@{/webjars/jquery/3.0.0/jquery.min.js/}"></script>
-    <script type="text/javascript" th:src="@{/webjars/popper.js/1.14.1/umd/popper.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="head :: head(title = 'Index')">
 </head>
 <body>
 <div class="container">
-    <header class="header clearfix">
-        <nav>
-            <ul class="nav nav-pills float-right">
-                <li class="nav-item">
-                    <a class="nav-link" href="/index"><span th:text="#{home}"></span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><span th:text="#{about}"></span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><span th:text="#{contact}"></span></a>
-                </li>
+    <header th:replace="navbar :: navbar">
 
-                <div class="dropdown open">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId"
-                            data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                        <span th:text="#{lang.change}"></span>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="triggerId">
-                        <form method="get">
-                            <button name="lang" type="submit" class="dropdown-item" value="pl"><span
-                                    th:text="#{lang.pl}"></span></button>
-                            <button name="lang" type="submit" class="dropdown-item" value="en"><span
-                                    th:text="#{lang.en}"></span></button>
-                        </form>
-                    </div>
-                </div>
-
-                <li class="nav-item"><a class="nav-link" sec:authorize="!isAuthenticated()" th:href="@{/login}"
-                                        th:text="#{login}">Login</a></li>
-                <li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"
-                                        th:text="#{logout}">Logout</a></li>
-            </ul>
-        </nav>
-        <div sec:authorize="isAuthenticated()">
-
-            <span th:text="#{greeting}"></span> <span sec:authentication="name">anonymous</span>!<br/>
-            <span th:text="#{your_roles}"></span>: <span sec:authentication="principal.authorities">NULL</span>
-
-        </div>
     </header>
 
     <main role="main">
 
         <div sec:authorize="!isAuthenticated()" class="jumbotron">
-            <h1 class="display-3">Header</h1>
-            <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus
-                commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+            <h1 class="display-3"><span th:text="#{greeting}"></span></h1>
+            <p class="lead"><span th:text="#{main_description}"></span></p>
             <p>
-                <a class="btn btn-lg btn-success" href="/register" role="button">Register now</a>
+                <a class="btn btn-lg btn-success" href="/register" role="button"><span th:text="#{register_now}"></span></a>
             </p>
         </div>
 
         <div class="row marketing">
-            <div class="col-lg-6">
-                <h4>Subheading</h4>
-                <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+            <th:block th:each="car : ${cars}">
 
-                <h4>Subheading</h4>
-                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet
-                    fermentum.</p>
+                <div class="col-lg-6">
+                    <img th:src="@{${'/images/' + car.model + '/1.jpg'}}" class="img-fluid"/>
+                    <h4>
+                        <td th:text="${car.getModel()}">
+                        </td>
+                    </h4>
+                    <p>
+                        <span th:text="#{engine}"></span>
+                    <td th:text="${car.getEngine()}"></td>
+                    <br>
+                    <span th:text="#{price}"></span>
+                    <td th:text="${car.getPrice()}"></td>
+                    <span th:text="#{per_day}"></span>
+                    </p>
+                    <div class="button">
 
-                <h4>Subheading</h4>
-                <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-            </div>
+                        <a class="btn btn-lg btn-primary btn-block" th:href="@{'/order/' + ${car.id}}"
+                           th:text="#{order}">Zamów order</a>
 
-            <div class="col-lg-6">
-                <h4>Subheading</h4>
-                <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+                    </div>
+                    <br><br>
+                </div>
 
-                <h4>Subheading</h4>
-                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet
-                    fermentum.</p>
-
-                <h4>Subheading</h4>
-                <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-            </div>
+            </th:block>
         </div>
-
     </main>
 
     <footer class="footer">

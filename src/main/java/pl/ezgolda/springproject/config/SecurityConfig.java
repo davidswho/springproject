@@ -41,8 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/webjars/**", "/css/**", "/register**")
+                .antMatchers("/", "/webjars/**", "/css/**", "/images/**", "/regis**", "/login**")
                 .permitAll()
+                .antMatchers("/admin**", "modify**")
+                .hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -55,7 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies()
                 .invalidateHttpSession(true)
                 .logoutSuccessUrl("/")
-                .permitAll();
+                .permitAll()
+        ;
     }
 
     @Bean

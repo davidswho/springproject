@@ -2,6 +2,7 @@ package pl.ezgolda.springproject.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,6 +16,7 @@ import java.util.Locale;
 
 @Configuration
 @EnableWebSecurity
+@EnableSpringDataWebSupport
 @EnableWebMvc
 public class AppConfig extends WebMvcConfigurerAdapter {
     @Override
@@ -24,8 +26,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/webjars/**", "/css/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/", "classpath:/static/css/");
+        registry.addResourceHandler("/webjars/**", "/css/**", "/images/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/", "classpath:/static/css/", "classpath:/static/images/");
     }
 
     @Bean

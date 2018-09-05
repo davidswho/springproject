@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head(title = #{order})">
+</head>
+<body>
+<div class="container">
+    <header th:replace="navbar :: navbar">
+
+    </header>
+    <form th:action="@{/selectUser}" method="post">
+
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <input type="hidden" id="selectUser" name="selectUser" th:value="${user.getUsername()}">
+                <input type="submit" class="btn btn-lg btn-primary btn-block" name="modifyUser" value="Modify user"/>
+            </div>
+        </div>
+
+    </form>
+
+    <table class="table">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Car Model</th>
+            <th scope="col">Rent Start date</th>
+            <th scope="col">Rent End date</th>
+        </tr>
+        <tr th:each="order,iter : ${orders}">
+            <th scope="row" th:text="${iter.index}"></th>
+            <td th:text="${order.getCar().getModel()}"></td>
+            <td th:text="${order.getRentStartDate()}"></td>
+            <td th:text="${order.getRentEndDate()}"></td>
+            <td>
+                <form th:action="@{/deleteOrder}" method="post">
+                    <input type="hidden" name="deleteOrder" th:value="${order.getId()}"/>
+                    <input type="submit" class="btn btn-lg btn-danger btn-block" value="Delete"/>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/downloadPDF}" method="post">
+                    <input type="hidden" name="carId" th:value="${order.getCar().getId()}"/>
+                    <input type="hidden" name="startDate" th:value="${order.getRentStartDate()}"/>
+                    <input type="hidden" name="endDate" th:value="${order.getRentEndDate()}"/>
+                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Generate PDF"/>
+                </form>
+            </td>
+
+        </tr>
+
+
+    </table>
+
+
+</div>
+</body>
+</html>

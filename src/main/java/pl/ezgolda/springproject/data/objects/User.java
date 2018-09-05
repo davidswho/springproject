@@ -9,8 +9,10 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
@@ -29,13 +31,14 @@ public class User implements UserDetails {
     @GeneratedValue
     private Integer id;
     @NotNull
-    @Length(min = 4, max = 16)
     private String username;
     @NotNull
     private String password;
     @NotNull
     @Email
     private String email;
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
     public User(@NotNull @Length(min = 4, max = 16) String username,
                 @NotNull @Length(min = 4, max = 16) String password,
@@ -44,10 +47,15 @@ public class User implements UserDetails {
         this.password = password;
         this.email = email;
         this.roles = new HashSet<>();
+        this.orders = new ArrayList<>();
     }
 
     public User() {
         //empty - constructor for JPA to inject
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 
     public boolean addRole(@NotNull Role role) {
@@ -108,5 +116,6 @@ public class User implements UserDetails {
     public Integer getId() {
         return id;
     }
+
 
 }

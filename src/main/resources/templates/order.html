@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head(title = #{order})">
+</head>
+
+<body>
+<div class="container">
+    <header th:replace="navbar :: navbar">
+
+    </header>
+    <h2 th:text="${car.getModel()}">
+    </h2>
+    <div th:if="${param.error}" class="alert alert-danger">
+        Wrong date!
+    </div>
+    <div th:if="${param.success}" class="alert alert-success">
+        Success!
+    </div>
+    <th:block th:each="url,iter : ${imageUrls}">
+        <a th:href="@{${url}}" th:data-lightbox="${car.model + '-photos'}" th:data-title="${car.model}">
+            <img class="img-thumbnail thumbnail" th:src="@{${url}}">
+        </a>
+
+    </th:block>
+    <h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4" th:text="#{engine}"></div>
+                <div class="col-sm-4" th:text="${car.getEngine()}"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4" th:text="#{price}"></div>
+                <div class="col-sm-4" th:text="${car.getPrice() + ' '} + #{per_day}"></div>
+            </div>
+        </div>
+    </h2>
+
+    <div class="col-sm-12" th:text="#{${car.id} + '_descr'}">
+    </div>
+
+    <table class="table">
+        <tr>
+            <th scope="col">Rent from</th>
+            <th scope="col">Rent to</th>
+        </tr>
+        <tr th:each="orders : ${alreadyOrdered}">
+            <td th:text="${orders.getRentStartDate()}"></td>
+            <td th:text="${orders.getRentEndDate()}"></td>
+        </tr>
+        <tr th:if="${alreadyOrdered.isEmpty()}">
+            <th th:text="${'NO ORDERS'}">NO ORDERS</th>
+        </tr>
+    </table>
+
+    <div class="container">
+        <div class="text-center">
+            <span th:text="${'Rent now'}"></span>
+        </div>
+        <form th:action="@{/orderCar}" method="post">
+            <div class="row">
+                <div class="col-sm-4" th:text="${'From '}">
+                </div>
+                <div class="col-sm-4">
+                    <input type="date" name="startDate">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4" th:text="${'To '}"></div>
+                <div class="col-sm-4">
+                    <input type="date" name="endDate">
+                </div>
+                <input type="hidden" name="carId" th:value="${car.id}"/>
+                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Order now!"/>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

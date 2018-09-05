@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="head :: head(title = #{order})">
+</head>
+<body>
+
+<header class="header clearfix" th:fragment="navbar">
+    <nav>
+
+        <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+                <a class="nav-link" href="/"><span th:text="#{home}"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><span th:text="#{about}"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><span th:text="#{contact}"></span></a>
+            </li>
+
+            <div class="dropdown open">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId"
+                        data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <span th:text="#{lang.change}"></span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="triggerId">
+                    <form method="get">
+                        <button name="lang" type="submit" class="dropdown-item" value="pl"><span
+                                th:text="#{lang.pl}"></span></button>
+                        <button name="lang" type="submit" class="dropdown-item" value="en"><span
+                                th:text="#{lang.en}"></span></button>
+                    </form>
+                </div>
+            </div>
+
+            <li class="nav-item"><a class="nav-link" sec:authorize="!isAuthenticated()" th:href="@{/login}"
+                                    th:text="#{login}">Login</a></li>
+            <li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}"
+                                    th:text="#{logout}">Logout</a></li>
+            <li class="nav-item"><a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin_panel}"
+            >Admin</a></li>
+            <li class="nav-item"><a class="nav-link" sec:authorize="hasRole('ROLE_USER')"
+                                    th:href="@{/user_panel}">Panel</a></li>
+        </ul>
+    </nav>
+    <div sec:authorize="isAuthenticated()">
+
+        <span th:text="#{greeting}"></span> <span sec:authentication="name">anonymous</span>!<br/>
+        <span th:text="#{your_roles}"></span>: <span sec:authentication="principal.authorities">NULL</span>
+
+    </div>
+</header>
+
+</body>
+</html>
