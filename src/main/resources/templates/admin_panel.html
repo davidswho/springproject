@@ -12,7 +12,7 @@
             <div class="form-group">
 
                 <select class="form-control" id="selectUser" name="selectUser">
-                    <option selected>Select user...</option>
+                    <option selected th:text="#{select_user}"></option>
                     <th:block th:each="user : ${users}">
                         <option th:value="${user.getUsername()}"
                                 th:text="${user.getUsername()}"></option>
@@ -22,22 +22,26 @@
             </div>
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6">
-                    <input type="submit" class="btn btn-lg btn-danger btn-block" name="deleteUser" value="Delete user"/>
+                    <input type="submit" class="btn btn-lg btn-danger btn-block" name="deleteUser"
+                           th:value="#{delete_user}"/>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     <input type="submit" class="btn btn-lg btn-primary btn-block" name="modifyUser"
-                           value="Modify user"/>
+                           th:value="#{modify_user}"/>
                 </div>
             </div>
         </fieldset>
     </form>
 
     <table class="table">
+        <div class="text-center">
+            <h4 class="card-title mt-3 text-center" th:text="#{users}">Users</h4>
+        </div>
         <tr>
-            <th scope="col">User Id</th>
-            <th scope="col">Username</th>
+            <th scope="col">Id</th>
+            <th scope="col" th:text="#{username}">User</th>
             <th scope="col">E-mail</th>
         </tr>
         <tr th:each="user: ${users}">
@@ -48,12 +52,15 @@
     </table>
 
     <table class="table">
+        <div class="text-center">
+            <h4 class="card-title mt-3 text-center" th:text="#{orders}">Orders</h4>
+        </div>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">User</th>
-            <th scope="col">Car Model</th>
-            <th scope="col">Rent Start date</th>
-            <th scope="col">Rent End date</th>
+            <th scope="col" th:text="#{username}">User</th>
+            <th scope="col" th:text="#{car_model}">Car Model</th>
+            <th scope="col" th:text="#{start_date}">Rent Start date</th>
+            <th scope="col" th:text="#{end_date}">Rent End date</th>
         </tr>
         <tr th:each="order,iter : ${orders}">
             <th scope="row" th:text="${iter.index}"></th>
@@ -64,7 +71,7 @@
             <td>
                 <form th:action="@{/deleteOrder}" method="post">
                     <input type="hidden" name="deleteOrder" th:value="${order.getId()}"/>
-                    <input type="submit" class="btn btn-lg btn-danger btn-block" value="Delete"/>
+                    <input type="submit" class="btn btn-lg btn-danger btn-block" th:value="#{delete}"/>
                 </form>
             </td>
         </tr>

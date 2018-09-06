@@ -14,49 +14,51 @@
     </header>
 
     <article class="card-body mx-auto" style="max-width: 400px;">
-        <h4 class="card-title mt-3 text-center">Create Account</h4>
-        <p class="text-center">Get started with your free account</p>
+        <h4 class="card-title mt-3 text-center" th:text="#{create_account}">Create Account</h4>
+
         <div th:if="${param.usererror}" class="alert alert-danger">
-            Username already exists!
+            <span th:text="#{username_already_exists}">Username already exists!</span>
         </div>
         <div th:if="${param.passerror}" class="alert alert-danger">
-            Paswords are different!
+            <span th:text="#{passwords_are_different}">Passwords are different!</span>
         </div>
         <div th:if="${param.captchaerror}" class="alert alert-danger">
-            Please, fill captcha!
+            <span th:text="#{fill_captcha}">Please, fill captcha!</span>
         </div>
         <form method="post" th:action="@{/registerUser}">
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                 </div>
-                <input name="username" class="form-control" placeholder="Full name" type="text">
+                <input name="username" class="form-control" th:placeholder="#{create_username}" type="text">
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                 </div>
-                <input name="email" class="form-control" placeholder="Email address" type="email">
+                <input name="email" class="form-control" th:placeholder="#{email_address}" type="email">
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <input name="password" class="form-control" placeholder="Create password" type="password">
+                <input name="password" class="form-control" th:placeholder="#{password}" type="password">
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <input name="repeatpassword" class="form-control" placeholder="Repeat password" type="password">
+                <input name="repeatpassword" class="form-control" th:placeholder="#{repeat_password}" type="password">
             </div> <!-- form-group// -->
             <div class="g-recaptcha"
                  data-sitekey="6Ldw4WQUAAAAAGgidOQeZeLfI4tOXfE1-jR9pRsl">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block"> Create Account</button>
+                <button type="submit" class="btn btn-primary btn-block" th:text="#{create_account}">Create Account
+                </button>
             </div> <!-- form-group// -->
-            <p class="text-center">Have an account? <a href="/login">Log In</a></p>
+            <p class="text-center"><span th:text="#{have_an_account}">Have an account?</span><a href="/login"><span
+                    th:text="#{login}"></span></a></p>
         </form>
     </article>
 </div> <!-- card.// -->

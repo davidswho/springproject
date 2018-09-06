@@ -23,14 +23,14 @@
             </div>
             <div class="input-group-prepend">
                 <span class="input-group-text">E-mail</span>
-                <input th:field="*{email}" type="text" class="form-control"/>
+                <input th:field="*{email}" type="email" class="form-control" required/>
             </div>
             <div class="input-group-prepend">
-                <span class="input-group-text">Password</span>
+                <span class="input-group-text" th:text="#{password}">Password</span>
                 <input name="password" class="form-control" type="password"/>
             </div>
 
-            <input type="submit" value="submit"/>
+            <input type="submit" value="submit" class="btn btn-lg btn-primary btn-block" th:value="#{modify_user}"/>
         </form>
     </div>
 </body>

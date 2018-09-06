@@ -11,10 +11,10 @@
     <h2 th:text="${car.getModel()}">
     </h2>
     <div th:if="${param.error}" class="alert alert-danger">
-        Wrong date!
+        <span th:text="#{wrong_date}">Wrong date!</span>
     </div>
     <div th:if="${param.success}" class="alert alert-success">
-        Success!
+        <span th:text="#{success}">Success!</span>
     </div>
     <th:block th:each="url,iter : ${imageUrls}">
         <a th:href="@{${url}}" th:data-lightbox="${car.model + '-photos'}" th:data-title="${car.model}">
@@ -37,41 +37,41 @@
 
     <div class="col-sm-12" th:text="#{${car.id} + '_descr'}">
     </div>
-
+    <div class="text-center">
+        <h4 class="card-title mt-3 text-center" th:text="#{reservations}">Reservations</h4>
+    </div>
     <table class="table">
         <tr>
-            <th scope="col">Rent from</th>
-            <th scope="col">Rent to</th>
+            <th scope="col"><span th:text="#{from}">Rent from</span></th>
+            <th scope="col"><span th:text="#{to}">Rent to</span></th>
         </tr>
         <tr th:each="orders : ${alreadyOrdered}">
             <td th:text="${orders.getRentStartDate()}"></td>
             <td th:text="${orders.getRentEndDate()}"></td>
         </tr>
         <tr th:if="${alreadyOrdered.isEmpty()}">
-            <th th:text="${'NO ORDERS'}">NO ORDERS</th>
+            <th th:text="#{no_orders}">NO ORDERS</th>
         </tr>
     </table>
 
-    <div class="container">
-        <div class="text-center">
-            <span th:text="${'Rent now'}"></span>
-        </div>
+    <div class="input-group-lg">
+        <br><br>
         <form th:action="@{/orderCar}" method="post">
             <div class="row">
-                <div class="col-sm-4" th:text="${'From '}">
+                <div class="col-sm-2" th:text="#{from}">
                 </div>
                 <div class="col-sm-4">
-                    <input type="date" name="startDate">
+                    <input type="date" name="startDate" class="form-control">
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-sm-4" th:text="${'To '}"></div>
+                <div class="col-sm-2" th:text="#{to}"></div>
                 <div class="col-sm-4">
-                    <input type="date" name="endDate">
+                    <input type="date" name="endDate" class="form-control">
                 </div>
-                <input type="hidden" name="carId" th:value="${car.id}"/>
-                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Order now!"/>
+                <input type="hidden" name="carId" th:value="${car.id}">
+                <input type="submit" class="btn btn-lg btn-primary btn-block" th:value="#{rent_now}"/>
             </div>
         </form>
     </div>

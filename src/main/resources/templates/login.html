@@ -10,20 +10,21 @@
 
     <div th:if="${param.error}">
         <div class="alert alert-danger">
-            Invalid credentials!
+            <span th:text="#{invalid_credentials}">Invalid credentials!</span>
         </div>
     </div>
     <form th:action="@{/login}" method="post" class="form-signin">
         <fieldset>
 
-            <input type="text" name="username" id="username" class="form-control" placeholder="Username"
-                       required="required" autofocus="autofocus"/>
+            <input type="text" name="username" id="username" class="form-control" placeholder="Login"
+                   required="required" autofocus="autofocus"/>
 
             <input type="password" name="password" id="password" class="form-control"
-                   placeholder="Password" required="required"/>
+                   th:placeholder="#{password}" required="required"/>
 
-            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Login"/>
-            <p class="text-center">Don't have an account? <a href="/register">Register</a></p>
+            <input type="submit" class="btn btn-lg btn-primary btn-block" th:value="#{login}"/>
+            <p class="text-center"><span th:text="#{dont_have_an_account}">Don't have an account? </span><a
+                    href="/register"><span th:text="#{register_now}">Register</span></a></p>
         </fieldset>
     </form>
 </div>
